@@ -1,5 +1,10 @@
-const resources = [];
-const clients = []
+// const resources = [];
+// const clients = []
 
-module.exports = resources;
-module.exports = clients;
+const data = {
+	resources: [],
+	clients: []
+}
+
+module.exports = data;
+// module.exports = clients;

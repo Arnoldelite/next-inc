@@ -1,21 +1,12 @@
 const express = require('express');
 const expressWs = require('express-ws');
-const resources =  require('./config/db.js');
-const clients =  require('./config/db.js');
 const resourceController = require('./controllers/resourceController');
 
 const app = express();
 expressWs(app);
 
 // WebSocket server
-// const clients = [];
-// const resources = [];
-console.log("resources >>", resources);
-console.log("clients >>", clients);
-
-
 app.ws('/ws', resourceController.handleSocketConnection);
-// app.ws('/ws', resourceController.handleSocketConnection);
 
 // RESTful API server
 app.use(express.json());

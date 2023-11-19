@@ -1,7 +1,7 @@
 // const Log = require("../models/log");
 // const axios = require("axios");
-const resources = require("../config/db.js");
-const clients =  require('../config/db.js');
+const data = require("../config/db.js");
+// const clients =  require('../config/db.js');
 
 
 
@@ -9,9 +9,9 @@ const clients =  require('../config/db.js');
 // @ get request - public
 exports.getAllResources = async (req, res) => {
   try {
-	console.log("resources >>", resources);
+	console.log("resources >>", data.resources);
 
-    res.status(200).json(resources);
+    res.status(200).json(data.resources);
   } catch (e) {
 	//error handling
     console.log(e);
@@ -24,7 +24,7 @@ exports.saveResource = async (req, res) => {
   try {
 
   const newResource = {id: id, ...body};
-  resources.push(newResource);
+  data.resources.push(newResource);
   res.status(200).json(newResource);
  
   } catch (e) {
@@ -37,9 +37,9 @@ exports.deleteResource = async (req, res) => {
 	const { id } = req.params;
 
 	try {
-  	const index = resources.findIndex((resource) => resource.id === JSON.parse(id));
+  	const index = data.resources.findIndex((resource) => resource.id === JSON.parse(id));
 	if (index !== -1) {
-		resources.splice(index, 1);
+		data.resources.splice(index, 1);
 		console.log("resources after delete removal>>", resources);
 		res.sendStatus(204);
 	} else {
@@ -47,14 +47,14 @@ exports.deleteResource = async (req, res) => {
 	}
 	} catch (e) {
 	  //error handling
-	  console.log(e);
+	  console.error(e);
 	}
   };
 
   exports.getResource = async (req, res) => {
 	try {
 		const { id } = req.params;
-		const index = resources.filter((resource) => resource.id === JSON.parse(id));
+		const index = data.resources.filter((resource) => resource.id === JSON.parse(id));
 		if (index !== -1) {
 			// res.sendStatus(204);
 	
@@ -64,24 +64,18 @@ exports.deleteResource = async (req, res) => {
 		}
 	} catch (e) {
 	  //error handling
-	  console.log(e);
+	  console.error(e);
 	}
   };
 
-  exports.handleSocketConnection =  (ws, req) => {
-//   exports.handleSocketConnection = async (ws, req) => {
-	
-	clients.push(ws);
+  exports.handleSocketConnection = async (ws, req) => {
 
-	console.log("clients >>", clients.length);
+	data.clients.push(ws);
 
-	
-
-	// try {
-
+	try {
 		ws.on('message', (message) => {
 			console.log(`Received: ${message}`);
-			clients.forEach((client) => {
+			data.clients.forEach((client) => {
 				// console.log("currrent client >>", client);
 			if (client !== ws && client.readyState === 1) {
 				client.send(`Server: ${message}`);
@@ -90,18 +84,20 @@ exports.deleteResource = async (req, res) => {
 		});
 
 		ws.on('close', () => {
-			const index = clients.indexOf(ws);
+			const index = data.clients.indexOf(ws);
 			if (index !== -1) {
-			clients.splice(index, 1);
+			data.clients.splice(index, 1);
 			}
 		});
 
 		setInterval(async () => {
-			const cpuTemp = JSON.stringify(resources);
+			const cpuTemp = JSON.stringify(data.resources);
+			// console.log("resources before broadcast >>", cpuTemp);
+			console.log("resources before stringify >>", data.resources);
 			ws.send(cpuTemp);
 		}, 5000);
-	// } catch (e) {
-	//   //error handling
-	//   console.log(e);
-	// }
+	} catch (e) {
+	  //error handling
+	  console.error(e);
+	}
   };
