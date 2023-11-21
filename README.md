@@ -19,15 +19,12 @@ resources, one for reading resources, and one for deleting resources.
 5. Upload the code to a public GitHub repository.
 
 
-
-
 Part 2: Follow-Up Questions
+
 • Explain the architecture of your WebSocket server and RESTful API server. How have
 you structured your code to handle different endpoints and requests efficiently?
 
-- The basic architecture of the implemented websocket server and and RESTful API server typically follow the singleton pattern.
-
-A Websocket server has been implemented to handle multiple connections. For testing purposes, there are two html clients in the `/Clients` folder, for a third client, you can use postman and connect to the web socket url `ws://localhost:3000/ws`. 
+- The basic architecture of the implemented websocket server and and RESTful API server typically follow the singleton pattern. A Websocket server has been implemented to handle multiple connections. For testing purposes, there are two html clients in the `/Clients` folder, for a third client, you can use postman and connect to the web socket url `ws://localhost:3000/ws`. 
 Open the developer console in order to see messages and from other clients and a periodic broadcast of the created resourses to all connected clients after starting the websocket server.
 
 For the RESTful api server, 4 endpoints have been implmented, that are as follows: 
@@ -41,6 +38,7 @@ For the RESTful api server, 4 endpoints have been implmented, that are as follow
 `DELETE http://localhost:3000/api/resource/:id` // delete existing resource using id
 
 Error handling and logging of errors to console have also been implemented as per the requirement.
+
 
 • Discuss the design decisions, libraries, and frameworks used in your implementation.
 Explain how your servers handle different types of requests and how they could be
