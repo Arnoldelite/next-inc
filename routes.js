@@ -11,7 +11,7 @@ const router = express.Router();
 router.get( '/resources', resourceController.getAllResources );
 router.get( '/resource/:id', resourceController.getResource );
 router.post( '/resource', resourceController.saveResource );
-router.delete( '/venue/:id', resourceController.deleteResource );
+router.delete( '/resource/:id', resourceController.deleteResource );
 
 
 
